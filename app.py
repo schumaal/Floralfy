@@ -61,14 +61,5 @@ h1 {
 # Modell laden
 # ---------------------------
 
-@st.cache_resource
-def load_model():
-    classifier = pipeline(
-        "image-classification",
-        model="dtech-NN-team-3/flower-classifier"
-    )
-    return classifier
-
-classifier = load_model()
 
 st.title("🌿 Pflanzen Erkennungs-App")
