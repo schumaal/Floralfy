@@ -3,3 +3,11 @@ transformers
 torch
 pillow
 requests
+
+streamlit
+transformers
+torch
+torchvision
+pillow
+sentencepiece
+safetensors
