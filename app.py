@@ -1,5 +1,4 @@
 import streamlit as st
-from transformers import pipeline
 from PIL import Image
 from plants_info import plants_data
 
