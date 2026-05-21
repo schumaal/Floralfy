@@ -86,3 +86,16 @@ section[data-testid="stSidebar"] {
 
 </st.markdown('<div class="main-container">', unsafe_allow_html=True)style>
 """, unsafe_allow_html=True)
+
+st.markdown("""
+<h1>
+🌿 Floralfy AI
+</h1>
+""", unsafe_allow_html=True)
+
+st.markdown(f"""
+<div class="plant-card">
+    <h2>{label}</h2>
+    <p>Diese Pflanze wurde erkannt.</p>
+</div>
+""", unsafe_allow_html=True)
