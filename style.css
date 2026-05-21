@@ -1,38 +1,87 @@
-body {
-    background-color: #e8f5e9;
+st.markdown("""
+<style>
+
+/* Gesamte App */
+.stApp {
+    background: linear-gradient(135deg, #d7f5dd, #edfced);
+    background-image: url("https://www.transparenttextures.com/patterns/leaf.png");
+    color: #1b5e20;
 }
 
-.main {
-    background: linear-gradient(135deg);
+/* Hauptcontainer */
+.main-container {
+    background: rgba(255,255,255,0.85);
+    padding: 2rem;
+    border-radius: 25px;
+    box-shadow: 0px 8px 25px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+}
+
+/* Titel */
+h1 {
+    color: #1b5e20 !important;
+    text-align: center;
+    font-size: 3rem !important;
+    font-weight: 800;
+}
+
+/* Text */
+p {
+    color: #2e7d32;
+    font-size: 1.1rem;
+}
+
+/* Upload Feld */
+[data-testid="stFileUploader"] {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    border: 2px dashed #66bb6a;
+}
+
+/* Suchleiste */
+.stTextInput input {
+    border-radius: 15px !important;
+    border: 2px solid #81c784 !important;
+    padding: 12px !important;
+}
+
+/* Buttons */
+.stButton button {
+    background: linear-gradient(90deg, #43a047, #66bb6a);
+    color: white;
+    border-radius: 15px;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.stButton button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, #388e3c, #4caf50);
+}
+
+/* Pflanzenkarten */
+.plant-card {
+    background: white;
     border-radius: 20px;
     padding: 20px;
-}
-
-h1 {
-    color: #1b5e20;
-    text-align: center;
-}
-
-.plant-card {
-    background-color: white;
-    padding: 20px;
-    border-radius: 15px;
-    border-left: 8px solid #4caf50;
     margin-top: 20px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    border-left: 10px solid #43a047;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.08);
 }
 
-.stButton>button {
-    background-color: #43a047;
-    color: white;
-    border-radius: 10px;
-    border: none;
+/* Erfolgsmeldung */
+.stSuccess {
+    border-radius: 15px;
 }
 
-.stTextInput>div>div>input {
-    border-radius: 10px;
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background: #c8e6c9;
 }
 
-.pattern {
-    background-image: url('https://www.transparenttextures.com/patterns/leaf.png');
-}
+</style>
+""", unsafe_allow_html=True)
