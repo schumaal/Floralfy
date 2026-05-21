@@ -3,7 +3,7 @@ body {
 }
 
 .main {
-    background: linear-gradient(135deg, #c8e6c9, #e8f5e9);
+    background: linear-gradient(135deg);
     border-radius: 20px;
     padding: 20px;
 }
