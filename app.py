@@ -1,3 +1,25 @@
+import streamlit as st
+from transformers import pipeline
+from PIL import Image
+from plants_info import plants_data
+
+# ---------------------------
+# Streamlit Config
+# ---------------------------
+
+st.set_page_config(
+    page_title="🌿 Pflanzen Erkennung",
+    page_icon="🌱",
+    layout="centered"
+)
+
+# ---------------------------
+# CSS Styling
+# ---------------------------
+
+st.markdown("""
+<style>
+
 body {
     background-color: #e8f5e9;
 }
@@ -33,6 +55,21 @@ h1 {
     border-radius: 10px;
 }
 
-.pattern {
-    background-image: url('https://www.transparenttextures.com/patterns/leaf.png');
-}
+</style>
+""", unsafe_allow_html=True)
+
+# ---------------------------
+# Modell laden
+# ---------------------------
+
+@st.cache_resource
+def load_model():
+    classifier = pipeline(
+        "image-classification",
+        model="dtech-NN-team-3/flower-classifier"
+    )
+    return classifier
+
+classifier = load_model()
+
+st.title("🌿 Pflanzen Erkennungs-App")
