@@ -1,7 +1,7 @@
 import streamlit as st
 from PIL import Image
 from transformers import pipeline
-import torch  # ← WICHTIG: Muss importiert sein!
+import torch
 
 st.set_page_config(
     page_title="🌿 Plantify",
@@ -9,17 +9,36 @@ st.set_page_config(
     layout="wide"
 )
 
-# Grünes Design
+# Design mit Times New Roman
 st.markdown("""
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap');
+
+    * {
+        font-family: 'Times New Roman', Times, serif !important;
+    }
+    
     .main {background-color: #f0f7f0;}
-    h1, h2, h3 {color: #1b5e20;}
+    
+    h1 {
+        color: #1b5e20;
+        font-size: 3.0rem;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    
+    h3 {
+        color: #1b5e20;
+        font-size: 1.8rem;
+    }
+    
     .stButton>button {
         background-color: #4caf50; 
         color: white;
         border-radius: 8px;
         font-weight: bold;
     }
+    
     .plant-card {
         background-color: white;
         padding: 20px;
@@ -27,6 +46,11 @@ st.markdown("""
         border: 2px solid #81c784;
         margin: 15px 0;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    /* Überschriften etwas eleganter machen */
+    h1, h2, h3 {
+        font-weight: 600;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -37,7 +61,7 @@ def load_classifier():
     return pipeline(
         "image-classification", 
         model="google/vit-base-patch16-224",
-        device=-1   # CPU
+        device=-1
     )
 
 classifier = load_classifier()
@@ -50,8 +74,8 @@ plant_db = {
     "tulip": {"name": "Tulpe", "info": ["🌷 Frühjahrsblüher", "Beliebt in Gärten", "Viele Farben"]},
 }
 
-st.title("🌿 **Plantify** – Dein Pflanzen-Erkenner")
-st.markdown("**KI erkennt Blumen & gibt Infos**")
+st.markdown("<h1>🌿 Plantify</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; font-size: 1.2rem;'>Dein Pflanzen-Erkenner</p>", unsafe_allow_html=True)
 
 tab1, tab2 = st.tabs(["📸 Bild hochladen", "🔍 Pflanze suchen"])
 
@@ -66,51 +90,25 @@ with tab1:
             with st.spinner("KI analysiert das Bild..."):
                 try:
                     results = classifier(image)
-                    
                     top = results[0]
+                    
                     st.success(f"**Erkannt:** {top['label']}")
                     st.info(f"**Konfidenz:** {top['score']:.1%}")
                     
-                    # Passende Infos suchen
                     label_lower = top['label'].lower()
                     key = next((k for k in plant_db if k in label_lower), None)
                     
                     if key:
                         info = plant_db[key]
-                        st.markdown(f"### {info['name']}")
+                        st.markdown(f"<h3>{info['name']}</h3>", unsafe_allow_html=True)
                         for item in info["info"]:
                             st.markdown(f"• {item}")
                     else:
-                        st.markdown("### Weitere Infos")
-                        st.write("Schöne Pflanze! Mehr Details folgen bald.")
+                        st.markdown("<h3>Weitere Informationen</h3>", unsafe_allow_html=True)
+                        st.write("Mehr Details zu dieser Pflanze folgen bald.")
                     
-                    # Top 3 Ergebnisse
-                    st.subheader("Andere mögliche Arten:")
+                    st.subheader("Weitere mögliche Arten:")
                     for r in results[1:4]:
                         st.write(f"• {r['label']} ({r['score']:.1%})")
-                except Exception as e:
-                    st.error("Fehler bei der Analyse. Versuche ein anderes Bild.")
-
-with tab2:
-    search_term = st.text_input("🔍 Nach einer Pflanze suchen...", placeholder="Rose, Gänseblümchen, Sonnenblume...")
-    if search_term:
-        matches = [v for k, v in plant_db.items() if search_term.lower() in k or search_term.lower() in v["name"].lower()]
-        if matches:
-            for m in matches:
-                st.markdown(f"""
-                <div class="plant-card">
-                    <h3>{m['name']}</h3>
-                    <ul>{"".join(f"<li>{item}</li>" for item in m['info'])}</ul>
-                </div>
-                """, unsafe_allow_html=True)
-        else:
-            st.info("Keine Treffer gefunden. Versuche andere Begriffe.")
-
-with st.sidebar:
-    st.image("https://picsum.photos/id/1015/300/200", use_column_width=True)
-    st.markdown("### 🌱 Über Plantify")
-    st.write("Erkunde die Welt der Pflanzen")
-    st.caption("Tipp: Gute Beleuchtung und klare Blüten verbessern die Genauigkeit.")
-
-st.caption("🌱 Viel Spaß beim Erkunden der Pflanzenwelt!")
-
+                except:
+                    st.error("Fehler bei der Analyse
