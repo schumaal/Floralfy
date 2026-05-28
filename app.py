@@ -111,4 +111,26 @@ with tab1:
                     for r in results[1:4]:
                         st.write(f"• {r['label']} ({r['score']:.1%})")
                 except:
-                    st.error("Fehler bei der Analyse
+                    st.error("Fehler bei der Analyse. Bitte anderes Bild versuchen.")
+
+with tab2:
+    search_term = st.text_input("🔍 Nach einer Pflanze suchen...", placeholder="Rose, Gänseblümchen...")
+    if search_term:
+        matches = [v for k, v in plant_db.items() if search_term.lower() in k or search_term.lower() in v["name"].lower()]
+        if matches:
+            for m in matches:
+                st.markdown(f"""
+                <div class="plant-card">
+                    <h3>{m['name']}</h3>
+                    <ul>{"".join(f"<li>{item}</li>" for item in m['info'])}</ul>
+                </div>
+                """, unsafe_allow_html=True)
+        else:
+            st.info("Keine Treffer gefunden.")
+
+with st.sidebar:
+    st.markdown("### Über Plantify")
+    st.write("KI-gestützte Pflanzenerkennung")
+    st.caption("Schriftart: Times New Roman")
+
+st.caption("🌱 Viel Freude beim Entdecken der Pflanzenwelt!")
