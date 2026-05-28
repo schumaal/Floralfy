@@ -109,7 +109,7 @@ with tab2:
 with st.sidebar:
     st.image("https://picsum.photos/id/1015/300/200", use_column_width=True)
     st.markdown("### 🌱 Über Plantify")
-    st.write("Viel spaß beim erkunden in der farbenfrohen Pflanzen App")
+    st.write("Erkunde die Welt der Pflanzen")
     st.caption("Tipp: Gute Beleuchtung und klare Blüten verbessern die Genauigkeit.")
 
 st.caption("🌱 Viel Spaß beim Erkunden der Pflanzenwelt!")
