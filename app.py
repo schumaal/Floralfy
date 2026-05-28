@@ -113,3 +113,6 @@ with st.sidebar:
     st.caption("Tipp: Gute Beleuchtung und klare Blüten verbessern die Genauigkeit.")
 
 st.caption("🌱 Viel Spaß beim Erkunden der Pflanzenwelt!")
+st.markdown("### 🌱 Über Plantify")
+    st.write("Elegante KI-Pflanzenerkennung")
+    st.caption("Schriftart: Great Vibes (ähnlich Bickham Script)")
