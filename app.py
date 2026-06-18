@@ -54,7 +54,7 @@ def load_classifier():
 
 classifier = load_classifier()
 
-# ====================== ERWEITERTE PFLANZEN-DATENBANK ======================
+# ====================== EINHEITLICHE PFLANZEN-DATENBANK ======================
 plant_db = {
     "daisy": {
         "name": "Gänseblümchen (Bellis perennis)",
@@ -149,149 +149,17 @@ plant_db = {
             "Schädlingsabwehrend",
             "Esoterische Bedeutung: Mut, Vitalität, Schutz"
         ]
-    }
-flowers.extend([
-    {
-        "name": "Tulpe",
-        "edible": True,
-        "blooming_period": "April bis Mai",
-        "requirements": "Sonnig bis halbschattig, lockerer Boden",
-        "esoteric_meaning": "Neuanfang, Wohlstand, Frühlingsenergie"
     },
-    {
-        "name": "Narzisse",
-        "edible": False,
-        "blooming_period": "März bis April",
-        "requirements": "Sonnig bis halbschattig, durchlässiger Boden",
-        "esoteric_meaning": "Wiedergeburt, Hoffnung, Erneuerung"
-    },
-    {
-        "name": "Pfingstrose",
-        "edible": Teilweise,
-        "blooming_period": "Mai bis Juni",
-        "requirements": "Sonnig, nährstoffreicher Boden",
-        "esoteric_meaning": "Glück, Liebe, Fülle"
-    },
-    {
-        "name": "Dahlie",
-        "edible": False,
-        "blooming_period": "Juli bis Oktober",
-        "requirements": "Sonnig, nährstoffreicher Boden, regelmäßiges Gießen",
-        "esoteric_meaning": "Innere Stärke, Würde, Kreativität"
-    },
-    {
-        "name": "Chrysantheme",
-        "edible": Teilweise,
-        "blooming_period": "September bis November",
-        "requirements": "Sonnig, humusreicher Boden",
-        "esoteric_meaning": "Langlebigkeit, Weisheit, Schutz"
-    },
-    {
-        "name": "Mohn",
-        "edible": Teilweise,
-        "blooming_period": "Mai bis Juli",
-        "requirements": "Viel Sonne, trockener Boden",
-        "esoteric_meaning": "Träume, Transformation, Vergänglichkeit"
-    },
-    {
-        "name": "Kornblume",
-        "edible": True,
-        "blooming_period": "Juni bis September",
-        "requirements": "Sonniger Standort, mäßig trockener Boden",
-        "esoteric_meaning": "Treue, Wahrheit, geistige Klarheit"
-    },
-    {
-        "name": "Aster",
-        "edible": False,
-        "blooming_period": "August bis Oktober",
-        "requirements": "Sonnig bis halbschattig",
-        "esoteric_meaning": "Geduld, Vertrauen, Sternenenergie"
-    },
-    {
-        "name": "Cosmea",
-        "edible": Teilweise,
-        "blooming_period": "Juni bis Oktober",
-        "requirements": "Sonnig, durchlässiger Boden",
-        "esoteric_meaning": "Harmonie, kosmische Ordnung"
-    },
-    {
-        "name": "Geranie",
-        "edible": False,
-        "blooming_period": "Mai bis Oktober",
-        "requirements": "Sonnig, regelmäßige Bewässerung",
-        "esoteric_meaning": "Schutz, Stabilität, Erdung"
-    },
-    {
-        "name": "Petunie",
-        "edible": False,
-        "blooming_period": "Mai bis Oktober",
-        "requirements": "Viel Sonne, nährstoffreicher Boden",
-        "esoteric_meaning": "Emotionale Heilung, Harmonie"
-    },
-    {
-        "name": "Begonie",
-        "edible": False,
-        "blooming_period": "Juni bis Oktober",
-        "requirements": "Halbschatten, feuchter Boden",
-        "esoteric_meaning": "Vorsicht, Balance, Schutz"
-    },
-    {
-        "name": "Fuchsie",
-        "edible": True,
-        "blooming_period": "Juni bis Oktober",
-        "requirements": "Halbschatten, gleichmäßige Feuchtigkeit",
-        "esoteric_meaning": "Eleganz, Anmut, Feenenergie"
-    },
-    {
-        "name": "Lilie",
-        "edible": False,
-        "blooming_period": "Juni bis August",
-        "requirements": "Sonnig bis halbschattig",
-        "esoteric_meaning": "Reinheit, spirituelles Wachstum"
-    },
-    {
-        "name": "Iris",
-        "edible": False,
-        "blooming_period": "Mai bis Juni",
-        "requirements": "Sonniger Standort, durchlässiger Boden",
-        "esoteric_meaning": "Botschaften der Seele, Weisheit"
-    },
-    {
-        "name": "Magnolie",
-        "edible": Teilweise,
-        "blooming_period": "März bis Mai",
-        "requirements": "Sonnig bis halbschattig, humusreicher Boden",
-        "esoteric_meaning": "Würde, Schönheit, Mondkraft"
-    },
-    {
-        "name": "Flieder",
-        "edible": True,
-        "blooming_period": "April bis Juni",
-        "requirements": "Sonnig, nährstoffreicher Boden",
-        "esoteric_meaning": "Erinnerung, Jugend, spirituelle Öffnung"
-    },
-    {
-        "name": "Gänseblümchen",
-        "edible": True,
-        "blooming_period": "März bis Oktober",
-        "requirements": "Sonnig bis halbschattig",
-        "esoteric_meaning": "Unschuld, Freude, Kindlichkeit"
-    },
-    {
-        "name": "Schafgarbe",
-        "edible": True,
-        "blooming_period": "Juni bis September",
-        "requirements": "Sonnig, trockener Boden",
-        "esoteric_meaning": "Schutz, Heilung, Mut"
-    },
-    {
-        "name": "Borretsch",
-        "edible": True,
-        "blooming_period": "Juni bis September",
-        "requirements": "Sonnig, lockerer Boden",
-        "esoteric_meaning": "Mut, Zuversicht, Herzensstärke"
-    }
-])
+    # Neue erweiterte Einträge
+    "narcissus": {"name": "Narzisse", "info": ["Blütezeit: März bis April", "Esoterische Bedeutung: Wiedergeburt, Hoffnung", "Nicht essbar"]},
+    "peony": {"name": "Pfingstrose", "info": ["Blütezeit: Mai bis Juni", "Esoterische Bedeutung: Glück, Liebe, Fülle"]},
+    "dahlia": {"name": "Dahlie", "info": ["Blütezeit: Juli bis Oktober", "Esoterische Bedeutung: Innere Stärke, Kreativität"]},
+    "chrysanthemum": {"name": "Chrysantheme", "info": ["Blütezeit: September bis November", "Esoterische Bedeutung: Langlebigkeit, Weisheit"]},
+    "cornflower": {"name": "Kornblume", "info": ["Blütezeit: Juni bis September", "Essbar", "Esoterische Bedeutung: Treue, Wahrheit"]},
+    "lily": {"name": "Lilie", "info": ["Blütezeit: Juni bis August", "Esoterische Bedeutung: Reinheit, spirituelles Wachstum"]},
+    "iris": {"name": "Iris", "info": ["Blütezeit: Mai bis Juni", "Esoterische Bedeutung: Weisheit, Botschaften der Seele"]},
+    "lilac": {"name": "Flieder", "info": ["Blütezeit: April bis Juni", "Esoterische Bedeutung: Erinnerung, Jugend"]},
+    "yarrow": {"name": "Schafgarbe", "info": ["Blütezeit: Juni bis September", "Essbar", "Esoterische Bedeutung: Schutz, Heilung"]},
 }
 
 st.markdown("<h1>🌿 Plantify</h1>", unsafe_allow_html=True)
@@ -330,11 +198,11 @@ with tab1:
                     st.subheader("Weitere mögliche Arten:")
                     for r in results[1:5]:
                         st.write(f"• {r['label']} ({r['score']:.1%})")
-                except Exception as e:
+                except:
                     st.error("Fehler bei der Analyse. Bitte versuche ein anderes Bild.")
 
 with tab2:
-    search_term = st.text_input("🔍 Nach einer Pflanze suchen...", placeholder="Rose, Lavendel, Ringelblume...")
+    search_term = st.text_input("🔍 Nach einer Pflanze suchen...", placeholder="Rose, Lavendel, Ringelblume, Narzisse...")
     if search_term:
         matches = [v for k, v in plant_db.items() if search_term.lower() in k or search_term.lower() in v["name"].lower()]
         if matches:
@@ -346,11 +214,10 @@ with tab2:
                 </div>
                 """, unsafe_allow_html=True)
         else:
-            st.info("Keine Treffer gefunden. Versuche andere Begriffe oder versuche die einzahl.")
+            st.info("Keine Treffer gefunden. Versuche andere Begriffe.")
 
 with st.sidebar:
     st.markdown("### Über Plantify")
-    st.write("KI-gestützte Pflanzenerkennung mit praktischen und kosmischen Infos.")
-    st.caption("")
+    st.write("KI-gestützte Pflanzenerkennung mit praktischen und esoterischen Infos.")
 
 st.caption("🌱 Viel Freude beim Entdecken der Pflanzenwelt!")
