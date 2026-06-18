@@ -1,7 +1,6 @@
 import streamlit as st
 from PIL import Image
 from transformers import pipeline
-import torch
 
 st.set_page_config(
     page_title="🌿 Plantify",
@@ -13,44 +12,33 @@ st.set_page_config(
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap');
-
     * {
         font-family: 'Times New Roman', Times, serif !important;
     }
-    
     .main {background-color: #f0f7f0;}
-    
     h1 {
         color: #1b5e20;
         font-size: 3.0rem;
         text-align: center;
         margin-bottom: 10px;
     }
-    
     h3 {
         color: #1b5e20;
-        font-size: 1.8rem;
+        font-size: 1.9rem;
     }
-    
     .stButton>button {
-        background-color: #4caf50; 
+        background-color: #4caf50;
         color: white;
         border-radius: 8px;
         font-weight: bold;
     }
-    
     .plant-card {
         background-color: white;
-        padding: 20px;
+        padding: 22px;
         border-radius: 15px;
         border: 2px solid #81c784;
         margin: 15px 0;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    
-    /* Überschriften etwas eleganter machen */
-    h1, h2, h3 {
-        font-weight: 600;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -59,95 +47,113 @@ st.markdown("""
 @st.cache_resource
 def load_classifier():
     return pipeline(
-        "image-classification", 
+        "image-classification",
         model="google/vit-base-patch16-224",
         device=-1
     )
 
 classifier = load_classifier()
 
-# Pflanzen-Datenbank
+# ====================== ERWEITERTE PFLANZEN-DATENBANK ======================
 plant_db = {
-    "daisy": {"name": "Gänseblümchen", "info": ["🌼 Blüht fast ganzjährig", "Essbar", "Bienenmagnet", "Liebt sonnige Wiesen"]},
-    "rose": {"name": "Rose", "info": ["🌹 Symbol der Liebe", "Über 300 Arten", "Braucht viel Pflege", "Duftet intensiv"]},
-    "sunflower": {"name": "Sonnenblume", "info": ["🌻 Dreht sich mit der Sonne", "Bis 3 Meter hoch", "Liefert Öl", "Sehr robust"]},
-    "tulip": {"name": "Tulpe", "info": ["🌷 Frühjahrsblüher", "Beliebt in Gärten", "Viele Farben"]},
-    flowers = 
-    {
-        "name": "Rose",
-        "edible": True,
-        "blooming_period": "Juni bis September",
-        "requirements": "Sonniger Standort, nährstoffreicher Boden, regelmäßige Bewässerung",
-        "esoteric_meaning": "Liebe, Herzenergie, Harmonie, Venus-Energie"
+    "daisy": {
+        "name": "Gänseblümchen (Bellis perennis)",
+        "info": [
+            "🌼 Blüht fast ganzjährig",
+            "Essbar (Blüten und Blätter)",
+            "Bienenmagnet",
+            "Liebt sonnige Wiesen",
+            "Sehr robust und trittfest"
+        ]
     },
-    {
-        "name": "Lavendel",
-        "edible": True,
-        "blooming_period": "Juni bis August",
-        "requirements": "Volle Sonne, trockener und durchlässiger Boden",
-        "esoteric_meaning": "Reinigung, Schutz, innere Ruhe, spirituelle Klarheit"
+    "rose": {
+        "name": "Rose (Rosa)",
+        "info": [
+            "🌹 Symbol der Liebe",
+            "Über 300 Arten weltweit",
+            "Blütezeit: Juni bis September",
+            "Braucht sonnigen Standort und nährstoffreichen Boden",
+            "Esoterische Bedeutung: Liebe, Herzenergie, Harmonie"
+        ]
     },
-    {
-        "name": "Sonnenblume",
-        "edible": True,
-        "blooming_period": "Juli bis Oktober",
-        "requirements": "Viel Sonne, nährstoffreicher Boden, ausreichend Wasser",
-        "esoteric_meaning": "Lebenskraft, Erfolg, Sonnenenergie, Optimismus"
+    "sunflower": {
+        "name": "Sonnenblume (Helianthus annuus)",
+        "info": [
+            "🌻 Dreht sich mit der Sonne",
+            "Bis 3 Meter hoch",
+            "Liefert Öl und essbare Kerne",
+            "Blütezeit: Juli bis Oktober",
+            "Esoterische Bedeutung: Lebenskraft, Optimismus, Erfolg"
+        ]
     },
-    {
-        "name": "Ringelblume",
-        "edible": True,
-        "blooming_period": "Mai bis Oktober",
-        "requirements": "Sonnig bis halbschattig, lockerer Boden",
-        "esoteric_meaning": "Heilung, Schutz, positive Transformation"
+    "tulip": {
+        "name": "Tulpe (Tulipa)",
+        "info": [
+            "🌷 Beliebte Frühlingsblume",
+            "Blüht März bis Mai",
+            "Viele Farben und Sorten",
+            "Zwiebelpflanze"
+        ]
     },
-    {
-        "name": "Kamille",
-        "edible": True,
-        "blooming_period": "Mai bis September",
-        "requirements": "Sonniger Standort, mäßig trockener Boden",
-        "esoteric_meaning": "Frieden, Gelassenheit, Regeneration"
+    "lavender": {
+        "name": "Lavendel (Lavandula)",
+        "info": [
+            "💜 Beruhigender Duft",
+            "Essbar",
+            "Blütezeit: Juni bis August",
+            "Liebt volle Sonne und trockenen Boden",
+            "Esoterische Bedeutung: Reinigung, innere Ruhe, Schutz"
+        ]
     },
-    {
-        "name": "Löwenzahn",
-        "edible": True,
-        "blooming_period": "April bis Juni",
-        "requirements": "Anspruchslos, sonnig bis halbschattig",
-        "esoteric_meaning": "Wunscherfüllung, Freiheit, Manifestation"
+    "marigold": {
+        "name": "Ringelblume (Calendula officinalis)",
+        "info": [
+            "🌼 Essbar und heilend",
+            "Blütezeit: Mai bis Oktober",
+            "Gute Bodenverbesserer",
+            "Esoterische Bedeutung: Heilung, Schutz, positive Transformation"
+        ]
     },
-    {
-        "name": "Veilchen",
-        "edible": True,
-        "blooming_period": "März bis Mai",
-        "requirements": "Halbschatten, humusreicher Boden",
-        "esoteric_meaning": "Bescheidenheit, Intuition, spirituelle Weisheit"
+    "chamomile": {
+        "name": "Kamille (Matricaria chamomilla)",
+        "info": [
+            "🌼 Berühmter Heiltee",
+            "Essbar",
+            "Blütezeit: Mai bis September",
+            "Esoterische Bedeutung: Frieden, Gelassenheit, Regeneration"
+        ]
     },
-    {
-        "name": "Kapuzinerkresse",
-        "edible": True,
-        "blooming_period": "Juni bis Oktober",
-        "requirements": "Sonnig bis halbschattig, mäßig nährstoffreicher Boden",
-        "esoteric_meaning": "Mut, Schutz, Vitalität"
+    "dandelion": {
+        "name": "Löwenzahn (Taraxacum officinale)",
+        "info": [
+            "🌼 Voll essbar (Blätter, Blüten, Wurzeln)",
+            "Blütezeit: April bis Juni",
+            "Sehr anspruchslos",
+            "Esoterische Bedeutung: Wunscherfüllung, Freiheit"
+        ]
     },
-    {
-        "name": "Jasmin",
-        "edible": Teilweise,
-        "blooming_period": "Mai bis September",
-        "requirements": "Warmer, sonniger Standort, durchlässiger Boden",
-        "esoteric_meaning": "Liebe, Sinnlichkeit, Mondenergie"
+    "violet": {
+        "name": "Veilchen (Viola)",
+        "info": [
+            "🌸 Zarte Frühlingsblume",
+            "Essbar",
+            "Blüht März bis Mai",
+            "Esoterische Bedeutung: Bescheidenheit, Intuition"
+        ]
     },
-    {
-        "name": "Hibiskus",
-        "edible": True,
-        "blooming_period": "Juli bis September",
-        "requirements": "Sonnig, windgeschützt, nährstoffreicher Boden",
-        "esoteric_meaning": "Leidenschaft, Weiblichkeit, Lebensfreude"
+    "nasturtium": {
+        "name": "Kapuzinerkresse (Tropaeolum majus)",
+        "info": [
+            "🌺 Essbare Blüten und Blätter (scharf)",
+            "Blütezeit: Juni bis Oktober",
+            "Schädlingsabwehrend",
+            "Esoterische Bedeutung: Mut, Vitalität, Schutz"
+        ]
     }
-]
 }
 
 st.markdown("<h1>🌿 Plantify</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; font-size: 1.2rem;'>Dein Pflanzen-Erkenner</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; font-size: 1.25rem;'>Dein Pflanzen-Erkenner mit erweiterten Informationen</p>", unsafe_allow_html=True)
 
 tab1, tab2 = st.tabs(["📸 Bild hochladen", "🔍 Pflanze suchen"])
 
@@ -167,8 +173,8 @@ with tab1:
                     st.success(f"**Erkannt:** {top['label']}")
                     st.info(f"**Konfidenz:** {top['score']:.1%}")
                     
-                    label_lower = top['label'].lower()
-                    key = next((k for k in plant_db if k in label_lower), None)
+                    label_lower = top['label'].lower().replace(" ", "").replace("-", "")
+                    key = next((k for k in plant_db if k in label_lower or plant_db[k]["name"].lower() in top['label'].lower()), None)
                     
                     if key:
                         info = plant_db[key]
@@ -177,16 +183,16 @@ with tab1:
                             st.markdown(f"• {item}")
                     else:
                         st.markdown("<h3>Weitere Informationen</h3>", unsafe_allow_html=True)
-                        st.write("Mehr Details zu dieser Pflanze folgen bald.")
+                        st.write("Diese Pflanze wird bald mit mehr Details ergänzt.")
                     
                     st.subheader("Weitere mögliche Arten:")
-                    for r in results[1:4]:
+                    for r in results[1:5]:
                         st.write(f"• {r['label']} ({r['score']:.1%})")
-                except:
-                    st.error("Fehler bei der Analyse. Bitte anderes Bild versuchen.")
+                except Exception as e:
+                    st.error("Fehler bei der Analyse. Bitte versuche ein anderes Bild.")
 
 with tab2:
-    search_term = st.text_input("🔍 Nach einer Pflanze suchen...", placeholder="Rose, Gänseblümchen...")
+    search_term = st.text_input("🔍 Nach einer Pflanze suchen...", placeholder="Rose, Lavendel, Ringelblume...")
     if search_term:
         matches = [v for k, v in plant_db.items() if search_term.lower() in k or search_term.lower() in v["name"].lower()]
         if matches:
@@ -198,11 +204,11 @@ with tab2:
                 </div>
                 """, unsafe_allow_html=True)
         else:
-            st.info("Keine Treffer gefunden.")
+            st.info("Keine Treffer gefunden. Versuche andere Begriffe.")
 
 with st.sidebar:
     st.markdown("### Über Plantify")
-    st.write("KI-gestützte Pflanzenerkennung")
+    st.write("KI-gestützte Pflanzenerkennung mit praktischen und esoterischen Infos.")
     st.caption("Schriftart: Times New Roman")
 
 st.caption("🌱 Viel Freude beim Entdecken der Pflanzenwelt!")
