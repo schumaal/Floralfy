@@ -209,6 +209,6 @@ with tab2:
 with st.sidebar:
     st.markdown("### Über Plantify")
     st.write("KI-gestützte Pflanzenerkennung mit praktischen und kosmischen Infos.")
-    st.caption("Schriftart: Times New Roman")
+    st.caption("")
 
 st.caption("🌱 Viel Freude beim Entdecken der Pflanzenwelt!")
