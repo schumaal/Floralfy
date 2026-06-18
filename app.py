@@ -72,7 +72,7 @@ plant_db = {
     "rose": {"name": "Rose", "info": ["🌹 Symbol der Liebe", "Über 300 Arten", "Braucht viel Pflege", "Duftet intensiv"]},
     "sunflower": {"name": "Sonnenblume", "info": ["🌻 Dreht sich mit der Sonne", "Bis 3 Meter hoch", "Liefert Öl", "Sehr robust"]},
     "tulip": {"name": "Tulpe", "info": ["🌷 Frühjahrsblüher", "Beliebt in Gärten", "Viele Farben"]},
-    flowers = [
+    flowers = 
     {
         "name": "Rose",
         "edible": True,
