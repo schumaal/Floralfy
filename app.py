@@ -204,11 +204,11 @@ with tab2:
                 </div>
                 """, unsafe_allow_html=True)
         else:
-            st.info("Keine Treffer gefunden. Versuche andere Begriffe.")
+            st.info("Keine Treffer gefunden. Versuche andere Begriffe oder versuche die einzahl.")
 
 with st.sidebar:
     st.markdown("### Über Plantify")
-    st.write("KI-gestützte Pflanzenerkennung mit praktischen und esoterischen Infos.")
+    st.write("KI-gestützte Pflanzenerkennung mit praktischen und kosmischen Infos.")
     st.caption("Schriftart: Times New Roman")
 
 st.caption("🌱 Viel Freude beim Entdecken der Pflanzenwelt!")
