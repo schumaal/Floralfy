@@ -72,6 +72,78 @@ plant_db = {
     "rose": {"name": "Rose", "info": ["🌹 Symbol der Liebe", "Über 300 Arten", "Braucht viel Pflege", "Duftet intensiv"]},
     "sunflower": {"name": "Sonnenblume", "info": ["🌻 Dreht sich mit der Sonne", "Bis 3 Meter hoch", "Liefert Öl", "Sehr robust"]},
     "tulip": {"name": "Tulpe", "info": ["🌷 Frühjahrsblüher", "Beliebt in Gärten", "Viele Farben"]},
+    flowers = [
+    {
+        "name": "Rose",
+        "edible": True,
+        "blooming_period": "Juni bis September",
+        "requirements": "Sonniger Standort, nährstoffreicher Boden, regelmäßige Bewässerung",
+        "esoteric_meaning": "Liebe, Herzenergie, Harmonie, Venus-Energie"
+    },
+    {
+        "name": "Lavendel",
+        "edible": True,
+        "blooming_period": "Juni bis August",
+        "requirements": "Volle Sonne, trockener und durchlässiger Boden",
+        "esoteric_meaning": "Reinigung, Schutz, innere Ruhe, spirituelle Klarheit"
+    },
+    {
+        "name": "Sonnenblume",
+        "edible": True,
+        "blooming_period": "Juli bis Oktober",
+        "requirements": "Viel Sonne, nährstoffreicher Boden, ausreichend Wasser",
+        "esoteric_meaning": "Lebenskraft, Erfolg, Sonnenenergie, Optimismus"
+    },
+    {
+        "name": "Ringelblume",
+        "edible": True,
+        "blooming_period": "Mai bis Oktober",
+        "requirements": "Sonnig bis halbschattig, lockerer Boden",
+        "esoteric_meaning": "Heilung, Schutz, positive Transformation"
+    },
+    {
+        "name": "Kamille",
+        "edible": True,
+        "blooming_period": "Mai bis September",
+        "requirements": "Sonniger Standort, mäßig trockener Boden",
+        "esoteric_meaning": "Frieden, Gelassenheit, Regeneration"
+    },
+    {
+        "name": "Löwenzahn",
+        "edible": True,
+        "blooming_period": "April bis Juni",
+        "requirements": "Anspruchslos, sonnig bis halbschattig",
+        "esoteric_meaning": "Wunscherfüllung, Freiheit, Manifestation"
+    },
+    {
+        "name": "Veilchen",
+        "edible": True,
+        "blooming_period": "März bis Mai",
+        "requirements": "Halbschatten, humusreicher Boden",
+        "esoteric_meaning": "Bescheidenheit, Intuition, spirituelle Weisheit"
+    },
+    {
+        "name": "Kapuzinerkresse",
+        "edible": True,
+        "blooming_period": "Juni bis Oktober",
+        "requirements": "Sonnig bis halbschattig, mäßig nährstoffreicher Boden",
+        "esoteric_meaning": "Mut, Schutz, Vitalität"
+    },
+    {
+        "name": "Jasmin",
+        "edible": Teilweise,
+        "blooming_period": "Mai bis September",
+        "requirements": "Warmer, sonniger Standort, durchlässiger Boden",
+        "esoteric_meaning": "Liebe, Sinnlichkeit, Mondenergie"
+    },
+    {
+        "name": "Hibiskus",
+        "edible": True,
+        "blooming_period": "Juli bis September",
+        "requirements": "Sonnig, windgeschützt, nährstoffreicher Boden",
+        "esoteric_meaning": "Leidenschaft, Weiblichkeit, Lebensfreude"
+    }
+]
 }
 
 st.markdown("<h1>🌿 Plantify</h1>", unsafe_allow_html=True)
