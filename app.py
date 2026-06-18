@@ -213,7 +213,8 @@ with st.sidebar:
     st.markdown("### Über Plantify")
     st.write("KI-Erkennung • Passende Beispielfotos • Tiefe Esoterik")
 
-st.caption("🌱 Viel Freude beim Entdecken der magischen Pflanzenwelt!")import streamlit as st
+st.caption("🌱 Viel Freude beim Entdecken der magischen Pflanzenwelt!")
+import streamlit as st
 from PIL import Image
 from transformers import pipeline
 import io
