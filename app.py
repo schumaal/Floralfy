@@ -1,6 +1,7 @@
 import streamlit as st
 from PIL import Image
 from transformers import pipeline
+import io
 
 st.set_page_config(
     page_title="🌿 Plantify",
@@ -54,7 +55,7 @@ def load_classifier():
 
 classifier = load_classifier()
 
-# ====================== EINHEITLICHE PFLANZEN-DATENBANK ======================
+# ====================== PFLANZEN-DATENBANK MIT VIEL MEHR ESOTERIK ======================
 plant_db = {
     "daisy": {
         "name": "Gänseblümchen (Bellis perennis)",
@@ -62,8 +63,10 @@ plant_db = {
             "🌼 Blüht fast ganzjährig",
             "Essbar (Blüten und Blätter)",
             "Bienenmagnet",
-            "Liebt sonnige Wiesen",
-            "Sehr robust und trittfest"
+            "Sehr robust und trittfest",
+            "🌟 Esoterik: Symbol für Unschuld, kindliche Freude und Neuanfang",
+            "Verbindet mit dem inneren Kind, fördert Leichtigkeit und emotionale Heilung",
+            "Hilft bei der Loslösung von alten Verletzungen"
         ]
     },
     "rose": {
@@ -73,7 +76,9 @@ plant_db = {
             "Über 300 Arten weltweit",
             "Blütezeit: Juni bis September",
             "Braucht sonnigen Standort und nährstoffreichen Boden",
-            "Esoterische Bedeutung: Liebe, Herzenergie, Harmonie"
+            "🌟 Esoterik: Starke Herz-Chakra-Pflanze",
+            "Steht für bedingungslose Liebe, Leidenschaft und spirituelle Öffnung des Herzens",
+            "Fördert Selbstliebe, heilt Herzschmerz und aktiviert Venus-Energie"
         ]
     },
     "sunflower": {
@@ -83,16 +88,9 @@ plant_db = {
             "Bis 3 Meter hoch",
             "Liefert Öl und essbare Kerne",
             "Blütezeit: Juli bis Oktober",
-            "Esoterische Bedeutung: Lebenskraft, Optimismus, Erfolg"
-        ]
-    },
-    "tulip": {
-        "name": "Tulpe (Tulipa)",
-        "info": [
-            "🌷 Beliebte Frühlingsblume",
-            "Blüht März bis Mai",
-            "Viele Farben und Sorten",
-            "Zwiebelpflanze"
+            "🌟 Esoterik: Symbol für Lebensfreude, göttliches Licht und innere Stärke",
+            "Stärkt das Solarplexus-Chakra, fördert Selbstvertrauen und Manifestation",
+            "Sonnengott-Energie – Optimismus, Erfolg und spirituelle Ausrichtung"
         ]
     },
     "lavender": {
@@ -102,7 +100,9 @@ plant_db = {
             "Essbar",
             "Blütezeit: Juni bis August",
             "Liebt volle Sonne und trockenen Boden",
-            "Esoterische Bedeutung: Reinigung, innere Ruhe, Schutz"
+            "🌟 Esoterik: Mächtige Reinigungs- und Schutzpflanze",
+            "Beruhigt den Geist, fördert tiefen Schlaf und spirituelle Klarheit",
+            "Unterstützt Meditation und Verbindung zu höheren Bewusstseinsebenen"
         ]
     },
     "marigold": {
@@ -111,7 +111,9 @@ plant_db = {
             "🌼 Essbar und heilend",
             "Blütezeit: Mai bis Oktober",
             "Gute Bodenverbesserer",
-            "Esoterische Bedeutung: Heilung, Schutz, positive Transformation"
+            "🌟 Esoterik: Starke Schutzpflanze gegen negative Energien",
+            "Fördert positive Transformation, Heilung und Feuer-Element-Energie",
+            "Hilft bei der Loslassung alter Wunden"
         ]
     },
     "chamomile": {
@@ -120,16 +122,8 @@ plant_db = {
             "🌼 Berühmter Heiltee",
             "Essbar",
             "Blütezeit: Mai bis September",
-            "Esoterische Bedeutung: Frieden, Gelassenheit, Regeneration"
-        ]
-    },
-    "dandelion": {
-        "name": "Löwenzahn (Taraxacum officinale)",
-        "info": [
-            "🌼 Voll essbar (Blätter, Blüten, Wurzeln)",
-            "Blütezeit: April bis Juni",
-            "Sehr anspruchslos",
-            "Esoterische Bedeutung: Wunscherfüllung, Freiheit"
+            "🌟 Esoterik: Pflanze des inneren Friedens und der Sanftmut",
+            "Beruhigt emotionale Stürme und fördert spirituelle Regeneration"
         ]
     },
     "violet": {
@@ -138,7 +132,8 @@ plant_db = {
             "🌸 Zarte Frühlingsblume",
             "Essbar",
             "Blüht März bis Mai",
-            "Esoterische Bedeutung: Bescheidenheit, Intuition"
+            "🌟 Esoterik: Symbol für Bescheidenheit, Intuition und mystische Weisheit",
+            "Öffnet das Dritte Auge, fördert spirituelle Einsichten und Verbindung zur Feenwelt"
         ]
     },
     "nasturtium": {
@@ -147,45 +142,62 @@ plant_db = {
             "🌺 Essbare Blüten und Blätter (scharf)",
             "Blütezeit: Juni bis Oktober",
             "Schädlingsabwehrend",
-            "Esoterische Bedeutung: Mut, Vitalität, Schutz"
+            "🌟 Esoterik: Pflanze des Mutes, der Vitalität und des persönlichen Schutzes"
         ]
     },
-    # Neue erweiterte Einträge
-    "narcissus": {"name": "Narzisse", "info": ["Blütezeit: März bis April", "Esoterische Bedeutung: Wiedergeburt, Hoffnung", "Nicht essbar"]},
-    "peony": {"name": "Pfingstrose", "info": ["Blütezeit: Mai bis Juni", "Esoterische Bedeutung: Glück, Liebe, Fülle"]},
-    "dahlia": {"name": "Dahlie", "info": ["Blütezeit: Juli bis Oktober", "Esoterische Bedeutung: Innere Stärke, Kreativität"]},
-    "chrysanthemum": {"name": "Chrysantheme", "info": ["Blütezeit: September bis November", "Esoterische Bedeutung: Langlebigkeit, Weisheit"]},
-    "cornflower": {"name": "Kornblume", "info": ["Blütezeit: Juni bis September", "Essbar", "Esoterische Bedeutung: Treue, Wahrheit"]},
-    "lily": {"name": "Lilie", "info": ["Blütezeit: Juni bis August", "Esoterische Bedeutung: Reinheit, spirituelles Wachstum"]},
-    "iris": {"name": "Iris", "info": ["Blütezeit: Mai bis Juni", "Esoterische Bedeutung: Weisheit, Botschaften der Seele"]},
-    "lilac": {"name": "Flieder", "info": ["Blütezeit: April bis Juni", "Esoterische Bedeutung: Erinnerung, Jugend"]},
-    "yarrow": {"name": "Schafgarbe", "info": ["Blütezeit: Juni bis September", "Essbar", "Esoterische Bedeutung: Schutz, Heilung"]},
+    "lily": {
+        "name": "Lilie (Lilium)",
+        "info": [
+            "⚪ Elegante Blüten",
+            "Blütezeit: Juni bis August",
+            "🌟 Esoterik: Symbol für Reinheit, spirituelles Erwachen und göttliche Weiblichkeit",
+            "Stärkt das Kronen-Chakra"
+        ]
+    },
+    "cornflower": {
+        "name": "Kornblume (Centaurea cyanus)",
+        "info": [
+            "🌼 Leuchtend blau",
+            "Blütezeit: Juni bis September",
+            "Essbar",
+            "🌟 Esoterik: Pflanze der Wahrheit, Treue und geistigen Klarheit",
+            "Unterstützt die Kommunikation mit der geistigen Welt"
+        ]
+    },
+    "narcissus": {
+        "name": "Narzisse",
+        "info": [
+            "Blütezeit: März bis April",
+            "🌟 Esoterik: Symbol für Wiedergeburt, Hoffnung und innere Erneuerung",
+            "Hilft bei Neuanfängen und Selbstreflexion"
+        ]
+    }
 }
 
 st.markdown("<h1>🌿 Plantify</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; font-size: 1.25rem;'>Dein Pflanzen-Erkenner mit erweiterten Informationen</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; font-size: 1.25rem;'>Dein Pflanzen-Erkenner mit tiefer Esoterik</p>", unsafe_allow_html=True)
 
 tab1, tab2 = st.tabs(["📸 Bild hochladen", "🔍 Pflanze suchen"])
 
 with tab1:
     uploaded_file = st.file_uploader("Pflanzenfoto hochladen", type=['jpg', 'jpeg', 'png', 'webp'])
-    
+   
     if uploaded_file:
         image = Image.open(uploaded_file)
         st.image(image, caption="Hochgeladenes Bild", use_column_width=True)
-        
+       
         if st.button("🌱 Jetzt erkennen", type="primary"):
             with st.spinner("KI analysiert das Bild..."):
                 try:
                     results = classifier(image)
                     top = results[0]
-                    
+                   
                     st.success(f"**Erkannt:** {top['label']}")
                     st.info(f"**Konfidenz:** {top['score']:.1%}")
-                    
+                   
                     label_lower = top['label'].lower().replace(" ", "").replace("-", "")
                     key = next((k for k in plant_db if k in label_lower or plant_db[k]["name"].lower() in top['label'].lower()), None)
-                    
+                   
                     if key:
                         info = plant_db[key]
                         st.markdown(f"<h3>{info['name']}</h3>", unsafe_allow_html=True)
@@ -193,8 +205,8 @@ with tab1:
                             st.markdown(f"• {item}")
                     else:
                         st.markdown("<h3>Weitere Informationen</h3>", unsafe_allow_html=True)
-                        st.write("Diese Pflanze wird bald mit mehr Details ergänzt.")
-                    
+                        st.write("Diese Pflanze wird bald mit mehr esoterischen Details ergänzt.")
+                   
                     st.subheader("Weitere mögliche Arten:")
                     for r in results[1:5]:
                         st.write(f"• {r['label']} ({r['score']:.1%})")
@@ -202,7 +214,7 @@ with tab1:
                     st.error("Fehler bei der Analyse. Bitte versuche ein anderes Bild.")
 
 with tab2:
-    search_term = st.text_input("🔍 Nach einer Pflanze suchen...", placeholder="Rose, Lavendel, Ringelblume, Narzisse...")
+    search_term = st.text_input("🔍 Nach einer Pflanze suchen...", placeholder="Rose, Lavendel, Ringelblume...")
     if search_term:
         matches = [v for k, v in plant_db.items() if search_term.lower() in k or search_term.lower() in v["name"].lower()]
         if matches:
@@ -218,6 +230,6 @@ with tab2:
 
 with st.sidebar:
     st.markdown("### Über Plantify")
-    st.write("KI-gestützte Pflanzenerkennung mit praktischen und esoterischen Infos.")
+    st.write("KI-gestützte Pflanzenerkennung mit praktischen und tiefen esoterischen Informationen.")
 
-st.caption("🌱 Viel Freude beim Entdecken der Pflanzenwelt!")
+st.caption("🌱 Viel Freude beim Entdecken der magischen Pflanzenwelt!")
