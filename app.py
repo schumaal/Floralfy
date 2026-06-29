@@ -29,74 +29,30 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Modell
+# DINOv2-basiertes Pflanzen-Modell
 @st.cache_resource
 def load_classifier():
-    return pipeline("image-classification", model="microsoft/resnet-50", device=-1)
+    return pipeline(
+        "image-classification",
+        model="vincent-espitalier/dino-v2-reg4-with-plantclef2024-weights",
+        device=-1
+    )
 
 classifier = load_classifier()
 
-# Session State für eigene Blumen
-if 'custom_plants' not in st.session_state:
-    st.session_state.custom_plants = {}
-
-# Basis-Datenbank mit viel Esoterik & Facts
+# ====================== PFLANZEN-DATENBANK ======================
 plant_db = {
-    "daisy": {
-        "name": "Gänseblümchen (Bellis perennis)",
-        "info": [
-            "🌼 Blüht fast ganzjährig",
-            "Essbar (Blüten und Blätter)",
-            "Bienenmagnet",
-            "Sehr robust",
-            "🌟 Esoterik: Symbol für Unschuld, kindliche Freude und Neuanfang",
-            "🌱 Fact: Verbindet mit dem inneren Kind und fördert emotionale Heilung"
-        ]
-    },
-    "rose": {
-        "name": "Rose (Rosa)",
-        "info": [
-            "🌹 Symbol der Liebe",
-            "Blütezeit: Juni bis September",
-            "🌟 Esoterik: Starke Herz-Chakra-Pflanze – bedingungslose Liebe",
-            "🌱 Fact: Über 300 Arten, viele stark duftend – Venus-Energie"
-        ]
-    },
-    "sunflower": {
-        "name": "Sonnenblume (Helianthus annuus)",
-        "info": [
-            "🌻 Folgt der Sonne",
-            "Bis 3 Meter hoch",
-            "🌟 Esoterik: Lebenskraft, Optimismus, Solarplexus-Chakra",
-            "🌱 Fact: Essbare Kerne, wichtige Ölpflanze"
-        ]
-    },
-    "lavender": {
-        "name": "Lavendel (Lavandula)",
-        "info": [
-            "💜 Beruhigender Duft",
-            "Essbar",
-            "🌟 Esoterik: Reinigung, Schutz, innere Ruhe",
-            "🌱 Fact: Sehr bienenfreundlich und trockenheitsverträglich"
-        ]
-    },
-    "lily": {
-        "name": "Lilie (Lilium)",
-        "info": [
-            "⚪ Elegante Blüten",
-            "🌟 Esoterik: Reinheit, spirituelles Erwachen, Kronen-Chakra",
-            "🌱 Fact: Stark duftend, klassische Fest- und Trauerblume"
-        ]
-    }
+    "daisy": {"name": "Gänseblümchen (Bellis perennis)", "info": ["🌼 Blüht fast ganzjährig", "Essbar", "Bienenmagnet", "🌟 Esoterik: Unschuld, Neuanfang"]},
+    "rose": {"name": "Rose (Rosa)", "info": ["🌹 Symbol der Liebe", "🌟 Esoterik: Herz-Chakra, bedingungslose Liebe"]},
+    "sunflower": {"name": "Sonnenblume", "info": ["🌻 Folgt der Sonne", "🌟 Esoterik: Lebenskraft, Optimismus"]},
+    "lavender": {"name": "Lavendel", "info": ["💜 Beruhigender Duft", "🌟 Esoterik: Reinigung, innere Ruhe"]},
+    "lily": {"name": "Lilie", "info": ["⚪ Elegante Blüten", "🌟 Esoterik: Reinheit, spirituelles Erwachen"]},
 }
 
-# Alle Pflanzen (Basis + eigene)
-all_plants = {**plant_db, **st.session_state.custom_plants}
-
 st.markdown("<h1>🌿 Plantify</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; font-size: 1.25rem;'>Dein erweiterbarer Pflanzen-Erkenner</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; font-size: 1.25rem;'>Pflanzen-Erkenner mit DINOv2-Modell (PlantCLEF2024)</p>", unsafe_allow_html=True)
 
-tab1, tab2, tab3 = st.tabs(["📸 Bild hochladen", "🔍 Suche", "➕ Neue Blume hinzufügen"])
+tab1, tab2 = st.tabs(["📸 Bild hochladen", "🔍 Pflanze suchen"])
 
 with tab1:
     uploaded_file = st.file_uploader("Pflanzenfoto hochladen", type=['jpg', 'jpeg', 'png', 'webp'])
@@ -110,7 +66,7 @@ with tab1:
         buf.seek(0)
         
         if st.button("🌱 Jetzt erkennen", type="primary"):
-            with st.spinner("KI analysiert..."):
+            with st.spinner("DINOv2-Modell analysiert..."):
                 try:
                     results = classifier(image)
                     top = results[0]
@@ -118,24 +74,24 @@ with tab1:
                     st.info(f"**Konfidenz:** {top['score']:.1%}")
                     
                     label_lower = top['label'].lower().replace(" ", "").replace("-", "")
-                    key = next((k for k in all_plants if k in label_lower or all_plants[k]["name"].lower() in top['label'].lower()), None)
+                    key = next((k for k in plant_db if k in label_lower or plant_db[k]["name"].lower() in top['label'].lower()), None)
                     
                     if key:
-                        p = all_plants[key]
+                        p = plant_db[key]
                         st.markdown(f"<h3>{p['name']}</h3>", unsafe_allow_html=True)
                         for item in p["info"]:
                             st.markdown(f"• {item}")
                     else:
                         st.info("Diese Pflanze ist noch nicht detailliert hinterlegt.")
-                except:
-                    st.error("Fehler bei der Analyse.")
+                except Exception as e:
+                    st.error(f"Fehler: {str(e)}")
 
         st.download_button("📥 Foto speichern", data=buf, file_name="plantify_foto.jpg", mime="image/jpeg")
 
 with tab2:
     search_term = st.text_input("🔍 Nach einer Pflanze suchen...", placeholder="Rose, Lavendel...")
     if search_term:
-        matches = [v for k, v in all_plants.items() if search_term.lower() in k or search_term.lower() in v["name"].lower()]
+        matches = [v for k, v in plant_db.items() if search_term.lower() in k or search_term.lower() in v["name"].lower()]
         if matches:
             for m in matches:
                 st.markdown(f"""
@@ -147,30 +103,9 @@ with tab2:
         else:
             st.info("Keine Treffer gefunden.")
 
-with tab3:
-    st.subheader("➕ Neue Blume zur Datenbank hinzufügen")
-    new_name = st.text_input("Pflanzenname (z.B. Hortensie)")
-    new_info = st.text_area("Infos, Esoterik & Facts (eine Zeile pro Punkt)")
-    new_photo = st.file_uploader("Beispielfoto hochladen (optional)", type=['jpg', 'jpeg', 'png'])
-    
-    if st.button("Blume hinzufügen"):
-        if new_name:
-            info_list = [line.strip() for line in new_info.split("\n") if line.strip()]
-            if not info_list:
-                info_list = ["Keine weiteren Infos hinterlegt."]
-            
-            st.session_state.custom_plants[new_name.lower()] = {
-                "name": new_name,
-                "info": info_list
-            }
-            st.success(f"✅ **{new_name}** erfolgreich hinzugefügt!")
-            st.rerun()
-        else:
-            st.warning("Bitte einen Namen angeben.")
-
 with st.sidebar:
-    st.markdown("### Über Plantify")
-    st.write(f"Aktuell **{len(all_plants)}** Pflanzen in der Datenbank")
-    st.caption("Hilf uns die Datenbank zu erweitern")
+    st.markdown("### Modell-Info")
+    st.write("**vincent-espitalier/dino-v2-reg4-with-plantclef2024-weights**")
+    st.caption("Spezialisiert auf Pflanzen (PlantCLEF 2024)")
 
 st.caption("🌱 Viel Freude beim Entdecken der magischen Pflanzenwelt!")
