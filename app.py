@@ -50,7 +50,7 @@ plant_db = {
 }
 
 st.markdown("<h1>🌿 Plantify</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; font-size: 1.25rem;'>Dein Pflanzen-Erkenner</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; font-size: 1.25rem;'>Dein Weg dich mit der Natur zu verbinden</p>", unsafe_allow_html=True)
 
 tab1, tab2 = st.tabs(["📸 Bild hochladen", "🔍 Pflanze suchen"])
 
@@ -105,6 +105,6 @@ with tab2:
 
 with st.sidebar:
     st.markdown("### Über Plantify")
-    st.write("KI-gestützte Pflanzenerkennung")
+    st.write("Entdecke die Verbindung zu Pflanzen und Unierusum")
 
 st.caption("🌱 Viel Freude beim Entdecken der magischen Pflanzenwelt!")
