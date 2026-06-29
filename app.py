@@ -47,7 +47,8 @@ plant_db = {
         "info": [
             "🌼 Blüht fast ganzjährig",
             "Essbar (Blüten und Blätter)",
-            "Bienen- & Schmetterlingsmagnet",
+            "Bienenmagnet",
+            "Sehr robust",
             "🌟 Esoterik: Symbol für Unschuld, kindliche Freude und Neuanfang",
             "🌱 Fact: Verbindet mit dem inneren Kind und fördert emotionale Heilung"
         ]
@@ -57,14 +58,14 @@ plant_db = {
         "info": [
             "🌹 Symbol der Liebe",
             "Blütezeit: Juni bis September",
-            "🌟 Esoterik: Starke Herz-Chakra-Pflanze – bedingungslose Liebe und Heilung",
+            "🌟 Esoterik: Starke Herz-Chakra-Pflanze – bedingungslose Liebe",
             "🌱 Fact: Über 300 Arten, viele stark duftend – Venus-Energie"
         ]
     },
     "sunflower": {
         "name": "Sonnenblume (Helianthus annuus)",
         "info": [
-            "🌻 Dreht sich mit der Sonne",
+            "🌻 Folgt der Sonne",
             "Bis 3 Meter hoch",
             "🌟 Esoterik: Lebenskraft, Optimismus, Solarplexus-Chakra",
             "🌱 Fact: Essbare Kerne, wichtige Ölpflanze"
@@ -75,8 +76,8 @@ plant_db = {
         "info": [
             "💜 Beruhigender Duft",
             "Essbar",
-            "🌟 Esoterik: Reinigung, Schutz, innere Ruhe und Klarheit",
-            "🌱 Fact: Sehr bienenfreundlich, trockenheitsverträglich"
+            "🌟 Esoterik: Reinigung, Schutz, innere Ruhe",
+            "🌱 Fact: Sehr bienenfreundlich und trockenheitsverträglich"
         ]
     },
     "lily": {
@@ -84,7 +85,7 @@ plant_db = {
         "info": [
             "⚪ Elegante Blüten",
             "🌟 Esoterik: Reinheit, spirituelles Erwachen, Kronen-Chakra",
-            "🌱 Fact: Stark duftend, klassische Festblume"
+            "🌱 Fact: Stark duftend, klassische Fest- und Trauerblume"
         ]
     }
 }
@@ -147,18 +148,22 @@ with tab2:
             st.info("Keine Treffer gefunden.")
 
 with tab3:
-    st.subheader("➕ Neue Blume manuell hinzufügen")
+    st.subheader("➕ Neue Blume zur Datenbank hinzufügen")
     new_name = st.text_input("Pflanzenname (z.B. Hortensie)")
     new_info = st.text_area("Infos, Esoterik & Facts (eine Zeile pro Punkt)")
+    new_photo = st.file_uploader("Beispielfoto hochladen (optional)", type=['jpg', 'jpeg', 'png'])
     
-    if st.button("Zur Datenbank hinzufügen"):
+    if st.button("Blume hinzufügen"):
         if new_name:
             info_list = [line.strip() for line in new_info.split("\n") if line.strip()]
+            if not info_list:
+                info_list = ["Keine weiteren Infos hinterlegt."]
+            
             st.session_state.custom_plants[new_name.lower()] = {
                 "name": new_name,
-                "info": info_list or ["Keine weiteren Infos hinterlegt."]
+                "info": info_list
             }
-            st.success(f"✅ **{new_name}** wurde erfolgreich hinzugefügt!")
+            st.success(f"✅ **{new_name}** erfolgreich hinzugefügt!")
             st.rerun()
         else:
             st.warning("Bitte einen Namen angeben.")
@@ -166,6 +171,6 @@ with tab3:
 with st.sidebar:
     st.markdown("### Über Plantify")
     st.write(f"Aktuell **{len(all_plants)}** Pflanzen in der Datenbank")
-    st.caption("Datenbank kann jederzeit erweitert werden")
+    st.caption("Datenbank wird durch dich erweitert")
 
 st.caption("🌱 Viel Freude beim Entdecken der magischen Pflanzenwelt!")
