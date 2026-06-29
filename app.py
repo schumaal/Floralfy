@@ -29,18 +29,18 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Modell
+# Spezialisiertes Pflanzen-Modell von Hugging Face
 @st.cache_resource
 def load_classifier():
-    return pipeline("image-classification", model="google/vit-base-patch16-224", device=-1)
+    return pipeline(
+        "image-classification",
+        model="vincent-espitalier/dino-v2-reg4-with-plantclef2024-weights",
+        device=-1  # CPU
+    )
 
 classifier = load_classifier()
 
-# Session State für benutzerdefinierte Blumen
-if 'custom_plants' not in st.session_state:
-    st.session_state.custom_plants = {}
-
-# Basis-Datenbank
+# ====================== PFLANZEN-DATENBANK ======================
 plant_db = {
     "daisy": {"name": "Gänseblümchen (Bellis perennis)", "info": ["🌼 Blüht fast ganzjährig", "Essbar", "Bienenmagnet", "🌟 Esoterik: Unschuld, Neuanfang"]},
     "rose": {"name": "Rose (Rosa)", "info": ["🌹 Symbol der Liebe", "🌟 Esoterik: Herz-Chakra, bedingungslose Liebe"]},
@@ -49,11 +49,8 @@ plant_db = {
     "lily": {"name": "Lilie", "info": ["⚪ Elegante Blüten", "🌟 Esoterik: Reinheit, spirituelles Erwachen"]},
 }
 
-# Alle Pflanzen zusammenführen
-all_plants = {**plant_db, **st.session_state.custom_plants}
-
 st.markdown("<h1>🌿 Plantify</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; font-size: 1.25rem;'>Dein Pflanzen-Erkenner – erweiterbar</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; font-size: 1.25rem;'>Pflanzen-Erkenner mit spezialisiertem Hugging Face Modell</p>", unsafe_allow_html=True)
 
 tab1, tab2, tab3 = st.tabs(["📸 Bild hochladen", "🔍 Suche", "➕ Neue Blume hinzufügen"])
 
@@ -69,32 +66,33 @@ with tab1:
         buf.seek(0)
         
         if st.button("🌱 Jetzt erkennen", type="primary"):
-            with st.spinner("KI analysiert..."):
+            with st.spinner("Spezialisiertes Modell analysiert..."):
                 try:
                     results = classifier(image)
                     top = results[0]
+                    
                     st.success(f"**Erkannt:** {top['label']}")
                     st.info(f"**Konfidenz:** {top['score']:.1%}")
                     
                     label_lower = top['label'].lower().replace(" ", "").replace("-", "")
-                    key = next((k for k in all_plants if k in label_lower or all_plants[k]["name"].lower() in top['label'].lower()), None)
+                    key = next((k for k in plant_db if k in label_lower or plant_db[k]["name"].lower() in top['label'].lower()), None)
                     
                     if key:
-                        p = all_plants[key]
+                        p = plant_db[key]
                         st.markdown(f"<h3>{p['name']}</h3>", unsafe_allow_html=True)
                         for item in p["info"]:
                             st.markdown(f"• {item}")
                     else:
-                        st.info("Diese Blume ist noch nicht in der Datenbank.")
-                except:
-                    st.error("Fehler bei der Analyse.")
+                        st.info("Diese Pflanze ist noch nicht detailliert hinterlegt.")
+                except Exception as e:
+                    st.error(f"Fehler: {str(e)}")
 
-        st.download_button("📥 Foto speichern", data=buf, file_name="mein_foto.jpg", mime="image/jpeg")
+        st.download_button("📥 Foto speichern", data=buf, file_name="plantify_foto.jpg", mime="image/jpeg")
 
 with tab2:
     search_term = st.text_input("🔍 Nach einer Pflanze suchen...", placeholder="Rose, Lavendel...")
     if search_term:
-        matches = [v for k, v in all_plants.items() if search_term.lower() in k or search_term.lower() in v["name"].lower()]
+        matches = [v for k, v in plant_db.items() if search_term.lower() in k or search_term.lower() in v["name"].lower()]
         if matches:
             for m in matches:
                 st.markdown(f"""
@@ -107,29 +105,23 @@ with tab2:
             st.info("Keine Treffer gefunden.")
 
 with tab3:
-    st.subheader("➕ Neue Blume zur Datenbank hinzufügen")
-    new_name = st.text_input("Pflanzenname (z.B. Hortensie)")
-    new_info = st.text_area("Infos & Esoterik (eine Zeile pro Punkt)")
-    new_image = st.file_uploader("Beispielfoto hochladen (optional)", type=['jpg', 'jpeg', 'png'])
+    st.subheader("➕ Neue Blume manuell hinzufügen")
+    new_name = st.text_input("Pflanzenname")
+    new_info = st.text_area("Infos & Esoterik (eine Zeile pro Aufzählungspunkt)")
     
-    if st.button("Blume zur Datenbank hinzufügen"):
+    if st.button("Zur Datenbank hinzufügen"):
         if new_name:
             info_list = [line.strip() for line in new_info.split("\n") if line.strip()]
-            if not info_list:
-                info_list = ["Keine weiteren Infos hinterlegt."]
-            
-            st.session_state.custom_plants[new_name.lower()] = {
+            st.session_state.setdefault('custom_plants', {})[new_name.lower()] = {
                 "name": new_name,
-                "info": info_list
+                "info": info_list or ["Keine weiteren Infos"]
             }
-            st.success(f"✅ **{new_name}** erfolgreich zur Datenbank hinzugefügt!")
+            st.success(f"✅ {new_name} wurde hinzugefügt!")
             st.rerun()
-        else:
-            st.warning("Bitte einen Namen eingeben.")
 
 with st.sidebar:
-    st.markdown("### Über Plantify")
-    st.write(f"Aktuell **{len(all_plants)} Pflanzen** in der Datenbank")
-    st.caption("Datenbank kann jederzeit erweitert werden")
+    st.markdown("### Modell-Info")
+    st.write("Verwendet: **vincent-espitalier/dino-v2-reg4-with-plantclef2024-weights**")
+    st.caption("Besser für Pflanzenerkennung optimiert")
 
-st.caption("🌱 Viel Freude beim Entdecken der magischen Pflanzenwelt!")
+st.caption("🌱 Viel Freude beim Entdecken der Pflanzenwelt!")
