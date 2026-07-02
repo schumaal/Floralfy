@@ -29,12 +29,12 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# DINOv2-basiertes Pflanzen-Modell
+# Stabiles Modell
 @st.cache_resource
 def load_classifier():
     return pipeline(
         "image-classification",
-        model="vincent-espitalier/dino-v2-reg4-with-plantclef2024-weights",
+        model="microsoft/resnet-50",   # stabil und schnell
         device=-1
     )
 
@@ -50,9 +50,9 @@ plant_db = {
 }
 
 st.markdown("<h1>🌿 Plantify</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; font-size: 1.25rem;'>Pflanzen-Erkenner mit DINOv2-Modell (PlantCLEF2024)</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; font-size: 1.25rem;'>Dein Pflanzen-Erkenner</p>", unsafe_allow_html=True)
 
-tab1, tab2 = st.tabs(["📸 Bild hochladen", "🔍 Pflanze suchen"])
+tab1, tab2, tab3 = st.tabs(["📸 Bild hochladen", "🔍 Suche", "➕ Neue Blume hinzufügen"])
 
 with tab1:
     uploaded_file = st.file_uploader("Pflanzenfoto hochladen", type=['jpg', 'jpeg', 'png', 'webp'])
@@ -66,7 +66,7 @@ with tab1:
         buf.seek(0)
         
         if st.button("🌱 Jetzt erkennen", type="primary"):
-            with st.spinner("DINOv2-Modell analysiert..."):
+            with st.spinner("KI analysiert..."):
                 try:
                     results = classifier(image)
                     top = results[0]
@@ -83,8 +83,8 @@ with tab1:
                             st.markdown(f"• {item}")
                     else:
                         st.info("Diese Pflanze ist noch nicht detailliert hinterlegt.")
-                except Exception as e:
-                    st.error(f"Fehler: {str(e)}")
+                except:
+                    st.error("Fehler bei der Analyse.")
 
         st.download_button("📥 Foto speichern", data=buf, file_name="plantify_foto.jpg", mime="image/jpeg")
 
@@ -103,9 +103,25 @@ with tab2:
         else:
             st.info("Keine Treffer gefunden.")
 
+with tab3:
+    st.subheader("➕ Neue Blume hinzufügen")
+    new_name = st.text_input("Pflanzenname (z.B. Hortensie)")
+    new_info = st.text_area("Infos, Esoterik & Facts (eine Zeile pro Punkt)")
+    
+    if st.button("Blume hinzufügen"):
+        if new_name:
+            info_list = [line.strip() for line in new_info.split("\n") if line.strip()]
+            st.session_state.setdefault('custom_plants', {})[new_name.lower()] = {
+                "name": new_name,
+                "info": info_list or ["Keine weiteren Infos"]
+            }
+            st.success(f"✅ **{new_name}** hinzugefügt!")
+            st.rerun()
+        else:
+            st.warning("Bitte einen Namen angeben.")
+
 with st.sidebar:
-    st.markdown("### Modell-Info")
-    st.write("**vincent-espitalier/dino-v2-reg4-with-plantclef2024-weights**")
-    st.caption("Spezialisiert auf Pflanzen (PlantCLEF 2024)")
+    st.markdown("### Modell")
+    st.write("**microsoft/resnet-50** (stabil)")
 
 st.caption("🌱 Viel Freude beim Entdecken der magischen Pflanzenwelt!")
