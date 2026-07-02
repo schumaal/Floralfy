@@ -4,7 +4,7 @@ from transformers import pipeline
 import io
 
 st.set_page_config(
-    page_title="🌿 Gaia Bloom",
+    page_title="🌿 Plantify",
     page_icon="🌱",
     layout="wide"
 )
@@ -171,12 +171,8 @@ with tab3:
             st.warning("Bitte einen Namen angeben.")
 
 with st.sidebar:
-    st.markdown("### Über Gaia Bloom")
+    st.markdown("### Über Plantify")
     st.write(f"Aktuell **{len(all_plants)}** Pflanzen in der Datenbank")
-    st.caption("Wir begleiten dich auf deinem spirituellen Weg und öffnen gemeinsam mit dir die Tore zur uralten Weisheit der Pflanzenwelt. Jede Pflanze trägt ihre eigene Energie, ihre eigene Geschichte und eine einzigartige Botschaft in sich, bereit, dich auf deinem persönlichen Pfad zu unterstützen.
-      Tauche ein in die mystische Verbindung zwischen Erde und Universum, entdecke die Kraft der Elemente und lerne, die Zeichen der Natur bewusster wahrzunehmen. Lass dich von der sanften Weisheit der Pflanzen inspirieren, finde Momente der Achtsamkeit und öffne dein Herz für die Magie, die dich umgibt.
-      Ob du nach innerer Balance, spiritueller Führung oder einer tieferen Verbindung zu dir selbst und der Natur suchst – diese Reise lädt dich ein, die verborgenen Energien der Pflanzen zu entdecken und ihre heilsame Präsenz in dein Leben zu integrieren.
-      Das Universum spricht auf vielfältige Weise zu uns. Manchmal genügt es, still zu werden und den Pflanzen zuzuhören.
-")
+    st.caption("Wir helfen dir, deinen spirituellen weg mithilfe der Pflanzenwelt zu gehen. Tauche ein in die mystische Welt des Universums!")
 
 st.caption("🌱 Viel Freude beim Entdecken der magischen Pflanzenwelt!")
