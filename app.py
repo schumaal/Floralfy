@@ -4,7 +4,7 @@ from transformers import pipeline
 import io
 
 st.set_page_config(
-    page_title="🌿 Plantify",
+    page_title="🌿 Gaia Bloom",
     page_icon="🌱",
     layout="wide"
 )
@@ -171,7 +171,7 @@ with tab3:
             st.warning("Bitte einen Namen angeben.")
 
 with st.sidebar:
-    st.markdown("### Über Plantify")
+    st.markdown("### Über Gaia Bloom")
     st.write(f"Aktuell **{len(all_plants)}** Pflanzen in der Datenbank")
     st.caption("Wir helfen dir, deinen spirituellen weg mithilfe der Pflanzenwelt zu gehen. Tauche ein in die mystische Welt des Universums! Wir begleiten dich auf deinem spirituellen Weg und öffnen gemeinsam mit dir die Tore zur uralten Weisheit der Pflanzenwelt.")
 
