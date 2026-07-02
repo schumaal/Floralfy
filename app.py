@@ -173,7 +173,7 @@ with tab3:
 with st.sidebar:
     st.markdown("### Über Gaia Bloom")
     st.write(f"Aktuell **{len(all_plants)}** Pflanzen in der Datenbank")
-    st.caption("Wir begleiten dich auf deinem spirituellen Weg und öffnen gemeinsam mit dir die Tore zur uralten Weisheit der Pflanzenwelt. Jede Pflanze trägt ihre eigene Energie, ihre eigene Geschichte und eine einzigartige Botschaft in sich – bereit, dich auf deinem persönlichen Pfad zu unterstützen.
+    st.caption("Wir begleiten dich auf deinem spirituellen Weg und öffnen gemeinsam mit dir die Tore zur uralten Weisheit der Pflanzenwelt. Jede Pflanze trägt ihre eigene Energie, ihre eigene Geschichte und eine einzigartige Botschaft in sich, bereit, dich auf deinem persönlichen Pfad zu unterstützen.
 
 Tauche ein in die mystische Verbindung zwischen Erde und Universum, entdecke die Kraft der Elemente und lerne, die Zeichen der Natur bewusster wahrzunehmen. Lass dich von der sanften Weisheit der Pflanzen inspirieren, finde Momente der Achtsamkeit und öffne dein Herz für die Magie, die dich umgibt.
 
