@@ -173,6 +173,6 @@ with tab3:
 with st.sidebar:
     st.markdown("### Über Plantify")
     st.write(f"Aktuell **{len(all_plants)}** Pflanzen in der Datenbank")
-    st.caption("Erweitere die Datenbank selbst!")
+    st.caption("Wir helfen dir, deinen spirituellen weg mithilfe der Pflanzenwelt zu gehen. Tauche ein in die mystische Welt des Universums!")
 
 st.caption("🌱 Viel Freude beim Entdecken der magischen Pflanzenwelt!")
