@@ -40,13 +40,56 @@ classifier = load_classifier()
 if 'custom_plants' not in st.session_state:
     st.session_state.custom_plants = {}
 
-# Basis-Datenbank
+# Basis-Datenbank mit viel Esoterik
 plant_db = {
-    "daisy": {"name": "Gänseblümchen (Bellis perennis)", "info": ["🌼 Blüht fast ganzjährig", "Essbar", "Bienenmagnet", "🌟 Esoterik: Unschuld, Neuanfang"]},
-    "rose": {"name": "Rose (Rosa)", "info": ["🌹 Symbol der Liebe", "🌟 Esoterik: Herz-Chakra, bedingungslose Liebe"]},
-    "sunflower": {"name": "Sonnenblume", "info": ["🌻 Folgt der Sonne", "🌟 Esoterik: Lebenskraft, Optimismus"]},
-    "lavender": {"name": "Lavendel", "info": ["💜 Beruhigender Duft", "🌟 Esoterik: Reinigung, innere Ruhe"]},
-    "lily": {"name": "Lilie", "info": ["⚪ Elegante Blüten", "🌟 Esoterik: Reinheit, spirituelles Erwachen"]},
+    "daisy": {
+        "name": "Gänseblümchen (Bellis perennis)",
+        "info": [
+            "🌼 Blüht fast ganzjährig",
+            "Essbar (Blüten und Blätter)",
+            "Bienenmagnet",
+            "Sehr robust",
+            "🌟 Esoterik: Symbol für Unschuld, kindliche Freude und Neuanfang",
+            "Verbindet mit dem inneren Kind, fördert Leichtigkeit und emotionale Heilung",
+            "Hilft bei der Loslösung von alten Verletzungen"
+        ]
+    },
+    "rose": {
+        "name": "Rose (Rosa)",
+        "info": [
+            "🌹 Symbol der Liebe",
+            "Blütezeit: Juni bis September",
+            "🌟 Esoterik: Starke Herz-Chakra-Pflanze – bedingungslose Liebe",
+            "Steht für Leidenschaft und spirituelle Öffnung des Herzens",
+            "Fördert Selbstliebe und heilt Herzschmerz"
+        ]
+    },
+    "sunflower": {
+        "name": "Sonnenblume (Helianthus annuus)",
+        "info": [
+            "🌻 Folgt der Sonne",
+            "Bis 3 Meter hoch",
+            "🌟 Esoterik: Symbol für Lebensfreude, göttliches Licht und innere Stärke",
+            "Stärkt das Solarplexus-Chakra und fördert Manifestation"
+        ]
+    },
+    "lavender": {
+        "name": "Lavendel (Lavandula)",
+        "info": [
+            "💜 Beruhigender Duft",
+            "Essbar",
+            "🌟 Esoterik: Mächtige Reinigungs- und Schutzpflanze",
+            "Beruhigt den Geist, fördert tiefen Schlaf und spirituelle Klarheit"
+        ]
+    },
+    "lily": {
+        "name": "Lilie (Lilium)",
+        "info": [
+            "⚪ Elegante Blüten",
+            "🌟 Esoterik: Symbol für Reinheit, spirituelles Erwachen und göttliche Weiblichkeit",
+            "Stärkt das Kronen-Chakra"
+        ]
+    }
 }
 
 # Alle Pflanzen
